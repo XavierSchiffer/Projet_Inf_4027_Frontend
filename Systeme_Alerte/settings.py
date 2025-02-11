@@ -95,8 +95,26 @@ CORS_ALLOWED_ORIGINS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse(config('DATABASE_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'systeme_alerte',
+        'USER': 'systeme_alerte_user',
+        'PASSWORD': 'BvMYrS8D2r6z92yU1UbeModG1myqLj8R',
+        'HOST': 'dpg-culqi2t2ng1s739qhivg-a',
+        'PORT': '5432',  # Vérifie le port si nécessaire
+    }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'systeme_alerte',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Pauline@1979',
+#         'HOST': 'localhost',
+#         'PORT': '5432'
+#     }
+# }
 
 # DATABASES = {
 #     'default': {

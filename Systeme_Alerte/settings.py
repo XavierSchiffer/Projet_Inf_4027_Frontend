@@ -15,7 +15,7 @@ from pathlib import Path
 from datetime import timedelta
 # import os
 PORT = os.environ.get("PORT", "10000")
-
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

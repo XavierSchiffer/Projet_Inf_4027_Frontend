@@ -13,9 +13,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
-from decouple import config
-
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +24,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = 'django-insecure-t%w#xp&_q6&_gp#gpt_(xu)olwr_haq@h(#b0kx)&c0s&+n=%8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -98,23 +95,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'systeme_alerte',
-        'USER': 'systeme_alerte_user',
-        'PASSWORD': 'BvMYrS8D2r6z92yU1UbeModG1myqLj8R',
-        'HOST': 'dpg-culqi2t2ng1s739qhivg-a',
-        'PORT': '5432',  # Vérifie le port si nécessaire
+        'USER': 'postgres',
+        'PASSWORD': 'Pauline@1979',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'systeme_alerte',
-#         'USER': 'postgres',
-#         'PASSWORD': 'Pauline@1979',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#     }
-# }
 
 # DATABASES = {
 #     'default': {

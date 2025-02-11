@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
-# import os
+import dj_database_url
 PORT = os.environ.get("PORT", "10000")
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
@@ -94,16 +94,22 @@ CORS_ALLOWED_ORIGINS = [
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'systeme_alerte',
-        'USER': 'systeme_alerte_user',
-        'PASSWORD': 'BvMYrS8D2r6z92yU1UbeModG1myqLj8R',
-        'HOST': 'dpg-culqi2t2ng1s739qhivg-a',
-        'PORT': '5432',  # Vérifie le port si nécessaire
-    }
+    'default': dj_database_url.config(default='postgresql://systeme_alerte_user:BvMYrS8D2r6z92yU1UbeModG1myqLj8R@dpg-culqi2t2ng1s739qhivg-a/systeme_alerte')
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'systeme_alerte',
+#         'USER': 'systeme_alerte_user',
+#         'PASSWORD': 'BvMYrS8D2r6z92yU1UbeModG1myqLj8R',
+#         'HOST': 'dpg-culqi2t2ng1s739qhivg-a',
+#         'PORT': '5432',  # Vérifie le port si nécessaire
+#     }
+# }
 
 
 # DATABASES = {

@@ -24,8 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-env = environ.Env()
-environ.Env.read.env()
+# env = environ.Env()
+# environ.Env.read.env()
+
+env = environ.Env()  # Créer une instance de l'environnement
+env.read_env()  # Lire les variables depuis le fichier .env
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 

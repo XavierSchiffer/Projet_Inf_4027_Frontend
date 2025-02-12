@@ -38,8 +38,9 @@ class PapayeCreateAPIView(APIView):
                 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
                 # Construire dynamiquement le chemin du modèle
-                MODEL_PATH = os.path.join(BASE_DIR, "Fruit", "models", "shape_classifier.h5")
+                # MODEL_PATH = os.path.join(BASE_DIR, "Fruit", "models", "shape_classifier.h5")
 
+                MODEL_PATH = os.path.join(settings.BASE_DIR, "models", "shape_classifier.h5")
                 chemin = os.path.join(settings.MEDIA_ROOT, papaye.image.name)
                 # chemin = f'C:/Users/Neymar_Jr/Documents/Projet_GL/Systeme_Alerte{papaye.image.url}'
                 # stade_maturation_pred, probas = prediction_maturity_papaya(
@@ -77,7 +78,8 @@ class PapayeCreateAPIView(APIView):
                 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
                 # Construire dynamiquement le chemin du modèle
-                MODEL_PATH = os.path.join(BASE_DIR, "Fruit", "models", "shape_classifier.h5")
+                # MODEL_PATH = os.path.join(BASE_DIR, "Fruit", "models", "shape_classifier.h5")
+                MODEL_PATH = os.path.join(settings.BASE_DIR, "models", "shape_classifier.h5")
 
                 chemin = os.path.join(settings.MEDIA_ROOT, papaye.image.name)
                 stade_maturation_pred, probas = prediction_maturity_papaya(chemin, MODEL_PATH)

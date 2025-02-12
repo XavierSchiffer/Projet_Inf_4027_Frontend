@@ -69,11 +69,18 @@ class PapayeCreateAPIView(APIView):
             if serializer.is_valid():
                 papaye = serializer.save(date_derniere_analyse=now())
 
-                chemin = f'C:/Users/Neymar_Jr/Documents/Projet_GL/Systeme_Alerte{papaye.image.url}'
-                stade_maturation_pred, probas = prediction_maturity_papaya(
-                    chemin, 
-                    'C:/Users/Neymar_Jr/Documents/Projet_GL/Systeme_Alerte/shape_classifier.h5'
-                )
+                # chemin = f'C:/Users/Neymar_Jr/Documents/Projet_GL/Systeme_Alerte{papaye.image.url}'
+                # stade_maturation_pred, probas = prediction_maturity_papaya(
+                #     chemin, 
+                #     'C:/Users/Neymar_Jr/Documents/Projet_GL/Systeme_Alerte/shape_classifier.h5'
+                # )
+                BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+                # Construire dynamiquement le chemin du modèle
+                MODEL_PATH = os.path.join(BASE_DIR, "Fruit", "models", "shape_classifier.h5")
+
+                chemin = os.path.join(settings.MEDIA_ROOT, papaye.image.name)
+                stade_maturation_pred, probas = prediction_maturity_papaya(chemin, MODEL_PATH)
 
                 papaye.stade_maturation = stade_maturation_pred
                 total = sum(probas.values())

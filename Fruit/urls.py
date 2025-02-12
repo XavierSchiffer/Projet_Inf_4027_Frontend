@@ -9,6 +9,7 @@ from Fruit.controllers.detail_alerte import AlerteDetailAPIView
 from Fruit.controllers.list_rapport import UserRapportListView
 from Fruit.controllers.list_papaye import UserPapayeListAPIView
 from Fruit.controllers.secteur_list import SecteurListView
+from Fruit.controllers.debug import check_model_file
 
 app_name = 'Fruit'
 
@@ -24,6 +25,7 @@ urlpatterns = [
     path('alertes/<int:alerte_id>/', AlerteDetailAPIView.as_view(), name='alerte_detail'),
     path('rapports/list/', UserRapportListView.as_view(), name='user-rapport-list'),
     path('papayes/list/', UserPapayeListAPIView.as_view(), name='user_papaye_list'),
+    path('api/debug/check_model/', check_model_file),
 
 
 

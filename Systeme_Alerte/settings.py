@@ -97,8 +97,14 @@ CORS_ALLOWED_ORIGINS = [
 
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgresql://systeme_alerte_user:BvMYrS8D2r6z92yU1UbeModG1myqLj8R@dpg-culqi2t2ng1s739qhivg-a/systeme_alerte')
+    'default': dj_database_url.parse(config('DATABASE_URL'))
 }
+
+
+
+# DATABASES = {
+#     'default': dj_database_url.config(default='postgresql://systeme_alerte_user:BvMYrS8D2r6z92yU1UbeModG1myqLj8R@dpg-culqi2t2ng1s739qhivg-a/systeme_alerte')
+# }
 
 
 # DATABASES = {

@@ -10,6 +10,10 @@ from Fruit.serializers.papaye import PapayeSerializer, PapayeUpdateSerializer
 
 from django.utils.timezone import now
 from Fruit.fonction.model import prediction_maturity_papaya
+import os
+
+from django.conf import settings
+
 
 class PapayeCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -30,11 +34,20 @@ class PapayeCreateAPIView(APIView):
                 papaye.date_derniere_analyse = now()
                 papaye.save()
 
-                chemin = f'C:/Users/Neymar_Jr/Documents/Projet_GL/Systeme_Alerte{papaye.image.url}'
-                stade_maturation_pred, probas = prediction_maturity_papaya(
-                    chemin, 
-                    'C:/Users/Neymar_Jr/Documents/Projet_GL/Systeme_Alerte/shape_classifier.h5'
-                )
+                # Récupérer le chemin du projet Django
+                BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+                # Construire dynamiquement le chemin du modèle
+                MODEL_PATH = os.path.join(BASE_DIR, "Fruit", "models", "shape_classifier.h5")
+
+                chemin = os.path.join(settings.MEDIA_ROOT, papaye.image.name)
+                # chemin = f'C:/Users/Neymar_Jr/Documents/Projet_GL/Systeme_Alerte{papaye.image.url}'
+                # stade_maturation_pred, probas = prediction_maturity_papaya(
+                #     chemin, 
+                #     'C:/Users/Neymar_Jr/Documents/Projet_GL/Systeme_Alerte/shape_classifier.h5'
+                # )
+
+                stade_maturation_pred, probas = prediction_maturity_papaya(chemin, MODEL_PATH)
 
                 if stade_maturation_pred != ancien_stade_maturation:
                     papaye.stade_maturation = stade_maturation_pred

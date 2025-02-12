@@ -59,10 +59,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
    
     # More fields required by Django when specifying a custom user model.
-    nom = models.CharField(max_length=50,null=False, blank=False)
-    prenom = models.CharField(max_length=50,null=True, blank=True)
-    password = models.CharField(max_length=50, blank=False, null=False)
-    role = models.CharField(max_length = 40, null=False, choices=(("ADMIN","ADMIN"),("AGRICULTEUR","AGRICULTEUR"),("GESTIONNAIRE","GESTIONNAIRE")))
+    nom = models.CharField(max_length=255,null=False, blank=False)
+    prenom = models.CharField(max_length=255,null=True, blank=True)
+    password = models.CharField(max_length=255, blank=False, null=False)
+    role = models.CharField(max_length = 255, null=False, choices=(("ADMIN","ADMIN"),("AGRICULTEUR","AGRICULTEUR"),("GESTIONNAIRE","GESTIONNAIRE")))
     telephone = models.CharField(max_length=15,null=True, blank=True)
 
     USERNAME_FIELD = 'username'

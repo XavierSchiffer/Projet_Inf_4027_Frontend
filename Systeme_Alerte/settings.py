@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 import dj_database_url
+from decouple import config
 PORT = os.environ.get("PORT", "10000")
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 

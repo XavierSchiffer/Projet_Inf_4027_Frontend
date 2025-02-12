@@ -95,9 +95,21 @@ REST_FRAMEWORK = {
 }
 WSGI_APPLICATION = 'Systeme_Alerte.wsgi.application'
 
+# CORS_ALLOW_ALL_ORIGINS = False  # Sécurisé, on autorise uniquement Vercel
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # URL de React
+    
+    "https://projet-backend-4027.vercel.app",  # Remplace par ton URL frontend sur Vercel
 ]
+
+CORS_ALLOWED_ORIGINS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://projet-backend-4027.vercel.app",  # Autorise les requêtes sécurisées
+]
+
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",  # URL de React
+# ]
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -108,39 +120,6 @@ DATABASES = {
     )
 }
 
-# DATABASES = {
-#     'default': dj_database_url.parse(config('DATABASE_URL'))
-# }
-
-
-
-# DATABASES = {
-#     'default': dj_database_url.config(default='postgresql://systeme_alerte_user:BvMYrS8D2r6z92yU1UbeModG1myqLj8R@dpg-culqi2t2ng1s739qhivg-a/systeme_alerte')
-# }
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'systeme_alerte',
-#         'USER': 'systeme_alerte_user',
-#         'PASSWORD': 'BvMYrS8D2r6z92yU1UbeModG1myqLj8R',
-#         'HOST': 'dpg-culqi2t2ng1s739qhivg-a',
-#         'PORT': '5432',  # Vérifie le port si nécessaire
-#     }
-# }
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'systeme_alerte',
-#         'USER': 'postgres',
-#         'PASSWORD': 'Pauline@1979',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#     }
-# }
 
 # DATABASES = {
 #     'default': {
@@ -198,3 +177,16 @@ EMAIL_HOST_USER = 'Rolandfouda499@gmail.com'
 EMAIL_HOST_PASSWORD = 'jrmv ynip kyys cskm'
 EMAIL_USE_TLS = True  
 SITE_URL = "http://127.0.0.1:8000"
+
+#####################################
+from corsheaders.defaults import default_headers
+
+# CORS_ALLOW_ALL_ORIGINS = False  # Sécurisé, on autorise uniquement Vercel
+# CORS_ALLOWED_ORIGINS = [
+#     "https://ton-site-vercel.app",  # Remplace par ton URL frontend sur Vercel
+# ]
+# CORS_ALLOW_CREDENTIALS = True  # Si tu utilises des cookies pour l'authentification
+
+# CSRF_TRUSTED_ORIGINS = [
+#     "https://ton-site-vercel.app",  # Autorise les requêtes sécurisées
+# ]

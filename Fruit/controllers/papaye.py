@@ -1,3 +1,4 @@
+from imp import load_module
 from Systeme_Alerte.utils import my_answers
 
 from rest_framework.views import APIView
@@ -40,7 +41,10 @@ class PapayeCreateAPIView(APIView):
                 # Construire dynamiquement le chemin du modèle
                 # MODEL_PATH = os.path.join(BASE_DIR, "Fruit", "models", "shape_classifier.h5")
 
-                MODEL_PATH = os.path.join(settings.BASE_DIR, "models", "shape_classifier.h5")
+                # MODEL_PATH = os.path.join(settings.BASE_DIR, "models", "shape_classifier.h5")
+                
+                model = load_module(settings.MODEL_PATH)
+
                 chemin = os.path.join(settings.MEDIA_ROOT, papaye.image.name)
                 # chemin = f'C:/Users/Neymar_Jr/Documents/Projet_GL/Systeme_Alerte{papaye.image.url}'
                 # stade_maturation_pred, probas = prediction_maturity_papaya(
@@ -48,7 +52,7 @@ class PapayeCreateAPIView(APIView):
                 #     'C:/Users/Neymar_Jr/Documents/Projet_GL/Systeme_Alerte/shape_classifier.h5'
                 # )
 
-                stade_maturation_pred, probas = prediction_maturity_papaya(chemin, MODEL_PATH)
+                stade_maturation_pred, probas = prediction_maturity_papaya(chemin, model)
 
                 if stade_maturation_pred != ancien_stade_maturation:
                     papaye.stade_maturation = stade_maturation_pred
@@ -79,10 +83,11 @@ class PapayeCreateAPIView(APIView):
 
                 # Construire dynamiquement le chemin du modèle
                 # MODEL_PATH = os.path.join(BASE_DIR, "Fruit", "models", "shape_classifier.h5")
-                MODEL_PATH = os.path.join(settings.BASE_DIR, "models", "shape_classifier.h5")
+                # MODEL_PATH = os.path.join(settings.BASE_DIR, "models", "shape_classifier.h5")
+                model = load_module(settings.MODEL_PATH)
 
                 chemin = os.path.join(settings.MEDIA_ROOT, papaye.image.name)
-                stade_maturation_pred, probas = prediction_maturity_papaya(chemin, MODEL_PATH)
+                stade_maturation_pred, probas = prediction_maturity_papaya(chemin, model)
 
                 papaye.stade_maturation = stade_maturation_pred
                 total = sum(probas.values())

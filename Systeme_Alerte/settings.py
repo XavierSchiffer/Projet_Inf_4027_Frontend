@@ -21,8 +21,16 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 ########################################
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
+
+
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Chemin absolu du fichier modèle
+MODEL_PATH = os.path.join(BASE_DIR, "Fruit", "models", "shape_classifier.h5")
 
 ##########################################
 

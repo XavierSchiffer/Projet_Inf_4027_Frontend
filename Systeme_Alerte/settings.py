@@ -95,13 +95,13 @@ REST_FRAMEWORK = {
 }
 WSGI_APPLICATION = 'Systeme_Alerte.wsgi.application'
 
-# CORS_ALLOW_ALL_ORIGINS = False  # Sécurisé, on autorise uniquement Vercel
+CORS_ALLOW_ALL_ORIGINS = False
+
 CORS_ALLOWED_ORIGINS = [
-    
-    "https://projet-backend-4027.vercel.app",  # Remplace par ton URL frontend sur Vercel
+    "https://projet-backend-4027.vercel.app",
 ]
 
-CORS_ALLOWED_ORIGINS = True
+# CORS_ALLOWED_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
     "https://projet-backend-4027.vercel.app",  # Autorise les requêtes sécurisées
@@ -178,8 +178,10 @@ EMAIL_HOST_PASSWORD = 'jrmv ynip kyys cskm'
 EMAIL_USE_TLS = True  
 SITE_URL = "http://127.0.0.1:8000"
 
+
+CORS_ALLOWED_ORIGINS
 #####################################
-from corsheaders.defaults import default_headers
+# from corsheaders.defaults import default_headers
 
 # CORS_ALLOW_ALL_ORIGINS = False  # Sécurisé, on autorise uniquement Vercel
 # CORS_ALLOWED_ORIGINS = [

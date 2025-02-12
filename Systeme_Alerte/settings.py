@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 import dj_database_url
+import environ
 from decouple import config
 PORT = os.environ.get("PORT", "10000")
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
@@ -23,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+env = environ.Env()
+environ.Env.read.env()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -96,8 +98,8 @@ CORS_ALLOWED_ORIGINS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv("DATABASE_URL")  # Charge l'URL de Render depuis les variables d'environnement
+    'default': dj_database_url.parse(
+        env("DATABASE_URL")  # Charge l'URL de Render depuis les variables d'environnement
     )
 }
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from Fruit.models import User
+from account.models import User
 
 class NonAdminUserSerializer(serializers.ModelSerializer):
     class Meta:

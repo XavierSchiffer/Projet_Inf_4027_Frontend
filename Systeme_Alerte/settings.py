@@ -207,3 +207,11 @@ CORS_ALLOWED_ORIGINS
 # CSRF_TRUSTED_ORIGINS = [
 #     "https://ton-site-vercel.app",  # Autorise les requêtes sécurisées
 # ]
+
+CORS_ALLOW_CREDENTIALS = True  # Si tu utilises des cookies pour l'authentification
+CORS_ALLOW_METHODS = [
+    "GET", "POST", "PUT", "DELETE", "OPTIONS"
+]
+CORS_ALLOW_HEADERS = [
+    "Content-Type", "Authorization", "X-Requested-With"
+]

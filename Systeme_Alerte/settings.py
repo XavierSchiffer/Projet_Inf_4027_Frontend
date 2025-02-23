@@ -114,6 +114,7 @@ CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
     "https://projet-backend-4027.vercel.app",
+    "https://systeme-maturation.vercel.app",
 ]
 
 # CORS_ALLOWED_ORIGINS = True
@@ -208,10 +209,17 @@ CORS_ALLOWED_ORIGINS
 #     "https://ton-site-vercel.app",  # Autorise les requêtes sécurisées
 # ]
 
-CORS_ALLOW_CREDENTIALS = True  # Si tu utilises des cookies pour l'authentification
-CORS_ALLOW_METHODS = [
-    "GET", "POST", "PUT", "DELETE", "OPTIONS"
+CORS_ALLOW_CREDENTIALS = True  # Si tu utilises des cookies/authentification
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://systeme-maturation.vercel.app",
 ]
-CORS_ALLOW_HEADERS = [
-    "Content-Type", "Authorization", "X-Requested-With"
+
+# Autoriser toutes les méthodes HTTP
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE",
+    "OPTIONS",
 ]

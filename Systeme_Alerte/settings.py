@@ -86,6 +86,7 @@ WSGI_APPLICATION = 'Systeme_Alerte.wsgi.application'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # URL de React
+    "http://localhost:5000",  # URL de React
 ]
 
 # Database

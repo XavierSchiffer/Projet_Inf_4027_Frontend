@@ -115,6 +115,7 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "https://projet-backend-4027.vercel.app",
     "https://systeme-maturation.vercel.app",
+    "https://systeme-maturation-xavier-foudas-projects.vercel.app",
 ]
 
 # CORS_ALLOWED_ORIGINS = True

@@ -115,12 +115,14 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "https://projet-backend-4027.vercel.app",
     "https://systeme-maturation.vercel.app",
+    "https://systeme-maturation-5r7bbvfpg-xavier-foudas-projects.vercel.app",
 ]
 
 # CORS_ALLOWED_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://projet-backend-4027.vercel.app",  # Autorise les requêtes sécurisées
+    "https://projet-backend-4027.vercel.app",
+    "https://systeme-maturation-5r7bbvfpg-xavier-foudas-projects.vercel.app",
 ]
 
 # CORS_ALLOWED_ORIGINS = [

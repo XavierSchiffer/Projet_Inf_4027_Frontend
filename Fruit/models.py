@@ -121,3 +121,27 @@ class Alerte(models.Model):
 
     def __str__(self):
         return f"Alerte {self.type_notification} pour {self.utilisateur.username} - Lu : {self.statut_lecture}"
+
+
+class MaturationStats(models.Model):
+    secteur = models.OneToOneField(Secteur, on_delete=models.CASCADE, related_name="maturation_stats")
+    total_non_mur = models.FloatField(default=0)
+    total_semi_mur = models.FloatField(default=0)
+    total_mur = models.FloatField(default=0)
+    nombre_analyses = models.IntegerField(default=0)
+    mois = models.CharField(max_length=7, null=True, blank=True)
+    
+    def __str__(self):
+        return f"Stats de maturation - Secteur {self.secteur.id}"
+
+    @property
+    def moyenne_non_mur(self):
+        return self.total_non_mur / self.nombre_analyses if self.nombre_analyses > 0 else 0
+
+    @property
+    def moyenne_semi_mur(self):
+        return self.total_semi_mur / self.nombre_analyses if self.nombre_analyses > 0 else 0
+
+    @property
+    def moyenne_mur(self):
+        return self.total_mur / self.nombre_analyses if self.nombre_analyses > 0 else 0

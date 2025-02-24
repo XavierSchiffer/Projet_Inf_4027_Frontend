@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.core.mail import send_mail
@@ -6,6 +7,7 @@ from django.conf import settings
 from .models import Papaye, Alerte, Rapport, StatistiqueRecolte
 from django.db.models.functions import TruncMonth
 from django.db.models import Count
+from Fruit.models import Papaye, MaturationStats
 
 @receiver(pre_save, sender=Papaye)
 def save_old_stade_maturation(sender, instance, **kwargs):
@@ -67,38 +69,6 @@ def send_alert_on_maturation_change(sender, instance, created, **kwargs):
 
             print("✅ Alerte enregistrée en base.")
 
-# @receiver(post_save, sender=Rapport)
-# def creer_statistiques_recolte(sender, instance, created, **kwargs):
-#     """
-#     Crée une entrée dans StatistiqueRecolte lorsqu'un rapport est soumis.
-#     """
-#     if created:  # On ne déclenche l'action que pour un nouveau rapport
-#         secteur = instance.secteur
-#         quantite_recolte = instance.quantite_recolte
-
-#         # Calcul du pourcentage de récolte et de perte
-#         quantite_recolte_pourcentage = min((quantite_recolte / 100.0) * 100, 100)
-#         quantite_non_recolter = 100 - quantite_recolte_pourcentage
-
-#         # Formatage de la période : ex "12 janvier 2025"
-#         periode = instance.date_envoi.strftime("%d %B %Y")
-
-#         # Récupération des pourcentages de maturation depuis le rapport
-#         pourcentage_papaye_mur = instance.pourcentage_papaye_mur
-#         pourcentage_papaye_non_mur = instance.pourcentage_papaye_non_mur
-#         pourcentage_papaye_semi_mur = instance.pourcentage_papaye_semi_mur
-
-#         # Création de l'entrée StatistiqueRecolte avec les nouveaux champs
-#         StatistiqueRecolte.objects.create(
-#             secteur=secteur,
-#             rapport=instance,
-#             periode=periode,
-#             quantite_recolte=quantite_recolte_pourcentage,
-#             quantite_non_recolter=quantite_non_recolter,
-#             pourcentage_papaye_mur=pourcentage_papaye_mur,
-#             pourcentage_papaye_non_mur=pourcentage_papaye_non_mur,
-#             pourcentage_papaye_semi_mur=pourcentage_papaye_semi_mur
-#         )
 
 @receiver(post_save, sender=Rapport)
 def creer_ou_mettre_a_jour_statistiques_recolte(sender, instance, created, **kwargs):
@@ -159,3 +129,23 @@ def creer_ou_mettre_a_jour_statistiques_recolte(sender, instance, created, **kwa
         ) / total_rapports
 
         statistique.save()
+
+
+@receiver(post_save, sender=Papaye)
+
+def update_maturation_stats(sender, instance, created, **kwargs):
+    if instance.secteur:
+        mois = instance.date_derniere_analyse.strftime('%Y-%m')
+
+        stats, _ = MaturationStats.objects.get_or_create(
+            secteur=instance.secteur,
+            mois = mois
+            )
+
+        # Assurer que stats.total_* est aussi un Decimal avant d'ajouter
+        stats.total_non_mur = Decimal(stats.total_non_mur) + Decimal(instance.pourcentage_papaye_non_mur)
+        stats.total_semi_mur = Decimal(stats.total_semi_mur) + Decimal(instance.pourcentage_papaye_semi_mur)
+        stats.total_mur = Decimal(stats.total_mur) + Decimal(instance.pourcentage_papaye_mur)
+        stats.nombre_analyses += 1
+
+        stats.save()

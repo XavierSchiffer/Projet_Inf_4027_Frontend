@@ -9,7 +9,8 @@ from Fruit.controllers.detail_alerte import AlerteDetailAPIView
 from Fruit.controllers.list_rapport import UserRapportListView
 from Fruit.controllers.list_papaye import UserPapayeListAPIView
 from Fruit.controllers.secteur_list import SecteurListView
-from Fruit.controllers.debug import check_model_file
+from Fruit.controllers.moyenneMat import MaturationStatsAPIView
+from Fruit.controllers.SecteurTotal import SecteursTopMurAPIView, MaturationParSecteurAPIView, TauxMaturationMoyenParMoisAPIView, SecteursTopMaturationParMoisAPIView
 
 app_name = 'Fruit'
 
@@ -25,8 +26,10 @@ urlpatterns = [
     path('alertes/<int:alerte_id>/', AlerteDetailAPIView.as_view(), name='alerte_detail'),
     path('rapports/list/', UserRapportListView.as_view(), name='user-rapport-list'),
     path('papayes/list/', UserPapayeListAPIView.as_view(), name='user_papaye_list'),
-    path('api/debug/check_model/', check_model_file),
-
-
+    path('papayes/maturation_stats/', MaturationStatsAPIView.as_view(), name='user_papaye_list'),
+    path('papayes/sector/mur/', SecteursTopMurAPIView.as_view(), name='papaye_sector_mur'),
+    path('sector/maturation/mois/', SecteursTopMaturationParMoisAPIView.as_view(), name='p_sector_m'),
+    path('sector/maturation/', MaturationParSecteurAPIView.as_view(), name='papaye_sec'),
+    path('sector/maturation/moyenne/', TauxMaturationMoyenParMoisAPIView.as_view(), name='papaye_sec'),
 
 ]

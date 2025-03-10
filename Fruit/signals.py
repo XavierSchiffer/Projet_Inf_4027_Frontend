@@ -149,3 +149,45 @@ def update_maturation_stats(sender, instance, created, **kwargs):
         stats.nombre_analyses += 1
 
         stats.save()
+
+# @receiver(post_save, sender=Papaye)
+# def update_maturation_stats(sender, instance, created, **kwargs):
+#     if instance.secteur:
+#         mois = instance.date_derniere_analyse.strftime('%Y-%m')
+
+#         # Vérifier si une statistique existe déjà pour ce secteur
+#         try:
+#             stats = MaturationStats.objects.get(secteur=instance.secteur)
+#         except MaturationStats.DoesNotExist:
+#             stats = MaturationStats.objects.create(secteur=instance.secteur, mois=mois)
+
+#         # Mettre à jour les statistiques
+#         # stats.total_non_mur += Decimal(instance.pourcentage_papaye_non_mur)
+#         # stats.total_semi_mur += Decimal(instance.pourcentage_papaye_semi_mur)
+#         # stats.total_mur += Decimal(instance.pourcentage_papaye_mur)
+#         # stats.nombre_analyses += 1
+#         # Conversion en Decimal pour éviter l'erreur
+#         stats.total_non_mur += Decimal(str(instance.pourcentage_papaye_non_mur))
+#         stats.total_semi_mur += Decimal(str(instance.pourcentage_papaye_semi_mur))
+#         stats.total_mur += Decimal(str(instance.pourcentage_papaye_mur))
+#         stats.nombre_analyses += 1
+
+#         stats.save()
+
+# @receiver(post_save, sender=Papaye)
+# def update_maturation_stats(sender, instance, created, **kwargs):
+#     if instance.secteur:
+#         mois = instance.date_derniere_analyse.strftime('%Y-%m')
+
+#         stats, _ = MaturationStats.objects.get_or_create(
+#             secteur=instance.secteur,
+#             mois=mois
+#         )
+
+#         # Conversion en Decimal pour éviter l'erreur
+#         stats.total_non_mur += Decimal(str(instance.pourcentage_papaye_non_mur))
+#         stats.total_semi_mur += Decimal(str(instance.pourcentage_papaye_semi_mur))
+#         stats.total_mur += Decimal(str(instance.pourcentage_papaye_mur))
+#         stats.nombre_analyses += 1
+
+#         stats.save()

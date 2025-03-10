@@ -1,3 +1,4 @@
+from django.db.utils import IntegrityError
 from decimal import Decimal
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
@@ -130,22 +131,49 @@ def creer_ou_mettre_a_jour_statistiques_recolte(sender, instance, created, **kwa
 
         statistique.save()
 
-
 @receiver(post_save, sender=Papaye)
-
 def update_maturation_stats(sender, instance, created, **kwargs):
     if instance.secteur:
         mois = instance.date_derniere_analyse.strftime('%Y-%m')
 
-        stats, _ = MaturationStats.objects.get_or_create(
-            secteur=instance.secteur,
-            mois = mois
+        try:
+            # Essayer de récupérer ou créer un enregistrement
+            stats, created = MaturationStats.objects.get_or_create(
+                secteur=instance.secteur,
+                mois=mois,
+                defaults={
+                    "total_non_mur": 0,
+                    "total_semi_mur": 0,
+                    "total_mur": 0,
+                    "nombre_analyses": 0
+                }
             )
+        except IntegrityError:
+            # Si un conflit se produit, on récupère l'existant
+            stats = MaturationStats.objects.get(secteur=instance.secteur, mois=mois)
 
-        # Assurer que stats.total_* est aussi un Decimal avant d'ajouter
+        # Mise à jour des valeurs
         stats.total_non_mur = Decimal(stats.total_non_mur) + Decimal(instance.pourcentage_papaye_non_mur)
         stats.total_semi_mur = Decimal(stats.total_semi_mur) + Decimal(instance.pourcentage_papaye_semi_mur)
         stats.total_mur = Decimal(stats.total_mur) + Decimal(instance.pourcentage_papaye_mur)
         stats.nombre_analyses += 1
 
         stats.save()
+# @receiver(post_save, sender=Papaye)
+
+# def update_maturation_stats(sender, instance, created, **kwargs):
+#     if instance.secteur:
+#         mois = instance.date_derniere_analyse.strftime('%Y-%m')
+
+#         stats, _ = MaturationStats.objects.get_or_create(
+#             secteur=instance.secteur,
+#             mois = mois
+#             )
+
+#         # Assurer que stats.total_* est aussi un Decimal avant d'ajouter
+#         stats.total_non_mur = Decimal(stats.total_non_mur) + Decimal(instance.pourcentage_papaye_non_mur)
+#         stats.total_semi_mur = Decimal(stats.total_semi_mur) + Decimal(instance.pourcentage_papaye_semi_mur)
+#         stats.total_mur = Decimal(stats.total_mur) + Decimal(instance.pourcentage_papaye_mur)
+#         stats.nombre_analyses += 1
+
+#         stats.save()

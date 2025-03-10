@@ -1,4 +1,4 @@
-from django.db.utils import IntegrityError
+from django.db import IntegrityError, transaction
 from decimal import Decimal
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
@@ -137,28 +137,32 @@ def update_maturation_stats(sender, instance, created, **kwargs):
         mois = instance.date_derniere_analyse.strftime('%Y-%m')
 
         try:
-            # Essayer de récupérer ou créer un enregistrement
-            stats, created = MaturationStats.objects.get_or_create(
-                secteur=instance.secteur,
-                mois=mois,
-                defaults={
-                    "total_non_mur": 0,
-                    "total_semi_mur": 0,
-                    "total_mur": 0,
-                    "nombre_analyses": 0
-                }
-            )
+            with transaction.atomic():  # 🔒 Démarrer une transaction pour éviter les conflits
+                stats = MaturationStats.objects.select_for_update().filter(
+                    secteur=instance.secteur, mois=mois
+                ).first()
+
+                if not stats:
+                    stats = MaturationStats.objects.create(
+                        secteur=instance.secteur,
+                        mois=mois,
+                        total_non_mur=0,
+                        total_semi_mur=0,
+                        total_mur=0,
+                        nombre_analyses=0
+                    )
+
+                # Mise à jour des statistiques
+                stats.total_non_mur += Decimal(instance.pourcentage_papaye_non_mur)
+                stats.total_semi_mur += Decimal(instance.pourcentage_papaye_semi_mur)
+                stats.total_mur += Decimal(instance.pourcentage_papaye_mur)
+                stats.nombre_analyses += 1
+
+                stats.save()  # ✅ Enregistrer les modifications
+
         except IntegrityError:
-            # Si un conflit se produit, on récupère l'existant
-            stats = MaturationStats.objects.get(secteur=instance.secteur, mois=mois)
+            print("⚠ Conflit détecté, réessayer l'opération")
 
-        # Mise à jour des valeurs
-        stats.total_non_mur = Decimal(stats.total_non_mur) + Decimal(instance.pourcentage_papaye_non_mur)
-        stats.total_semi_mur = Decimal(stats.total_semi_mur) + Decimal(instance.pourcentage_papaye_semi_mur)
-        stats.total_mur = Decimal(stats.total_mur) + Decimal(instance.pourcentage_papaye_mur)
-        stats.nombre_analyses += 1
-
-        stats.save()
 # @receiver(post_save, sender=Papaye)
 
 # def update_maturation_stats(sender, instance, created, **kwargs):
